@@ -1,13 +1,20 @@
 version: '3'
 services:
   db:
-    image: postgres:alpine
+    build:
+      context: ./build/db
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes:
+      - .:/myappdo
+    ports:
+     - "5432:5432"
   web:
     build: .
-    command: ruby myapp.rb
     volumes:
       - .:/myapp
+    command: shotgun --server=thin --port=40000 config.ru
     ports:
-      - "8080:8080"
-    depends_on:
-      - db
+      - "3001:40000"
+    #depends_on:
+    #  - db

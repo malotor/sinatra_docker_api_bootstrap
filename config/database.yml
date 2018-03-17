@@ -1,0 +1,17 @@
+development:
+  host: db
+  adapter: postgresql
+  encoding: unicode
+  database: docker
+  pool: 2
+  username: docker
+  password: docker
+
+production:
+  host: db
+  adapter: postgresql
+  encoding: unicode
+  database: docker
+  pool: 2
+  username: docker
+  password: docker
