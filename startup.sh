@@ -1,5 +1,4 @@
 #!/bin/bash
-gem install sinatra
 if [ "$RACK_ENV" == "production" ];
 then
   #bundle install --without development test
@@ -11,6 +10,6 @@ else
     rspec
   else
     #gem install shotgun
-    shotgun -I /myapp -p 80 -o '0.0.0.0' config.ru
+    shotgun -p 80 config.ru
   fi
 fi

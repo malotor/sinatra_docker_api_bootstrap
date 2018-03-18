@@ -14,8 +14,7 @@ REST API app with
 
     docker-compose build
     docker-compose up -d
-
-    sh rake.sh db:create_migration NAME=create_articles
+    sh rake.sh db:migrate
 
 # Change environment
 
