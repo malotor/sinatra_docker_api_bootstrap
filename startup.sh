@@ -1,3 +1,16 @@
 #!/bin/bash
-#thin $@ -V -R config.ru start
-shotgun --server=thin --port=40000 --host 0.0.0.0  config.ru 
+gem install sinatra
+if [ "$RACK_ENV" == "production" ];
+then
+  #bundle install --without development test
+  ruby $MAIN_APP_FILE -p 80
+else
+  #bundle install
+  if [ "$RACK_ENV" == "test" ];
+  then
+    rspec
+  else
+    #gem install shotgun
+    shotgun -I /myapp -p 80 -o '0.0.0.0' config.ru
+  fi
+fi

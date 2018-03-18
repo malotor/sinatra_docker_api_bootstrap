@@ -1,22 +1,38 @@
 # myapp.rb
 require 'sinatra'
+require 'sinatra/json'
+require 'sinatra/activerecord'
+
+current_dir = Dir.pwd
+Dir["#{current_dir}/models/*.rb"].each { |file| require file }
+
 
 class Application < Sinatra::Base
 
-    set :environment, :production
-    
-    configure :development do
-      set :database, {adapter: 'postgresql',  encoding: 'unicode', database: 'your_database_name', pool: 2, username: 'your_username', password: 'your_password'}
+    #set :environment, :production
+    #set :database_file, 'config/database.yml'
+
+    get '/articles' do
+
+      json Article.all
+
     end
 
-    configure :production do
-      set :database, {adapter: 'postgresql',  encoding: 'unicode', database: 'your_database_name', pool: 2, username: 'your_username', password: 'your_password'}
+
+    get '/articles/:id' do
+
+      json Article.find(params[:id])
+
     end
 
-    get '/hello/:name' do
-        # matches "GET /hello/foo" and "GET /hello/bar"
-        # params['name'] is 'foo' or 'bar'
-        "Hello mate  experiment #{params['name']}!"
+    post '/articles' do
+
+      Article.create(params[:article])
+
+    end
+
+    delete '/articles/:id' do
+      Article.destroy(params[:id])
     end
 
 end

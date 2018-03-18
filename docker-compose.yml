@@ -13,8 +13,8 @@ services:
     build: .
     volumes:
       - .:/myapp
-    command: shotgun --server=thin --port=40000 config.ru
+    command: shotgun -I /myapp app.rb -p 80 -o '0.0.0.0'
     ports:
-      - "3001:40000"
+      - "8080:80"
     #depends_on:
     #  - db
