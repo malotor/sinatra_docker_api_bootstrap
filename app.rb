@@ -11,11 +11,15 @@ class Application < Sinatra::Base
 
     #set :environment, :production
     #set :database_file, 'config/database.yml'
-
+    get '/' do
+      #json Article.all
+      "Hello world"
+    end
+    
     get '/articles' do
 
-      json Article.all
-
+      #json Article.all
+      "Hello world"
     end
 
 

@@ -1,4 +1,4 @@
-default: &default
+development:
   adapter: postgresql
   encoding: unicode
   database: docker
@@ -8,4 +8,10 @@ default: &default
   host: db
 
 production:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  database: docker
+  pool: 2
+  username: docker
+  password: docker
+  host: db
