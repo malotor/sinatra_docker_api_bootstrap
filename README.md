@@ -6,19 +6,18 @@ REST API app with
     2. Docker
     3. Postgresql
     4. ActiveRecord
-    5. Shotgut
+    5. Shotgun
     6. Tux
+    7. rspec
+    8. capybara
 
 
-# Start project
+## Start project
 
     docker-compose build
     docker-compose up -d
     sh run rake db:migrate
     sh run RACK_ENV=test rake db:migrate
 
-
-## References
-
-    http://recipes.sinatrarb.com/p/databases/postgresql-activerecord
-    http://mherman.org/blog/2013/06/08/designing-with-class-sinatra-plus-postgresql-plus-heroku/#.Wq4lBJPwZQJ
+## Run Test
+    sh run rspec

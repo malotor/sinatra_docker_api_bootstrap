@@ -8,12 +8,16 @@ Dir["#{current_dir}/models/*.rb"].each { |file| require file }
 
 class MyApp < Sinatra::Base
 
+    before do
+        content_type 'application/json'
+    end
+
     get "/" do
-      { status: 'UP' }.to_json
+        { status: 'UP' }.to_json
     end
 
     get "/articles" do
-      json Article.all
+        json Article.all
     end
 
     get "/articles/:id" do
@@ -25,11 +29,12 @@ class MyApp < Sinatra::Base
     end
 
     post '/articles' do
-      Article.create(params[:article])
+        puts params
+        Article.create(params[:title],params[:content])
     end
 
     delete '/articles/:id' do
-      Article.destroy(params[:id])
+        Article.destroy(params[:id])
     end
 
 end

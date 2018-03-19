@@ -13,7 +13,6 @@ services:
     build: .
     volumes:
       - .:/myapp
-    #command: shotgun -p 40000 config.ru
     ports:
       - "8080:40000"
     depends_on:
