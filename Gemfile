@@ -14,3 +14,9 @@ group :development do
     gem 'tux'
     gem 'sinatra-advanced-routes'
 end
+
+group :development,:test do
+    gem 'sqlite3'
+    gem 'capybara'
+    gem 'rspec'
+end

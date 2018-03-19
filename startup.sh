@@ -10,6 +10,6 @@ else
     rspec
   else
     #gem install shotgun
-    shotgun -p 80 config.ru
+    shotgun -p 40000 -o '0.0.0.0' config.ru
   fi
 fi

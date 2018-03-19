@@ -14,8 +14,9 @@ REST API app with
 
     docker-compose build
     docker-compose up -d
-    sh rake.sh db:migrate
-
+    sh run rake db:migrate
+    sh run rake db:migrate RAILS_ENV=test
+    
 # Change environment
 
     RACK_ENV=production

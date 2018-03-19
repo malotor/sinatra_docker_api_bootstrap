@@ -1,35 +1,35 @@
 # myapp.rb
-require 'sinatra'
 require 'sinatra/json'
 require 'sinatra/activerecord'
+require 'sinatra/base'
 
 current_dir = Dir.pwd
 Dir["#{current_dir}/models/*.rb"].each { |file| require file }
 
-get "/" do
-  { status: 'UP' }.to_json
-end
+class MyApp < Sinatra::Base
 
-get "/articles" do
-  json Article.all
-end
-
-
-get "/articles/:id" do
-    begin
-        json Article.find(params[:id])
-    rescue
-        halt 404, { code: 404, error: 'Article doesn`t exists' }.to_json
+    get "/" do
+      { status: 'UP' }.to_json
     end
 
-end
+    get "/articles" do
+      json Article.all
+    end
 
-post '/articles' do
+    get "/articles/:id" do
+        begin
+            json Article.find(params[:id])
+        rescue
+            halt 404, { code: 404, error: 'Article doesn`t exists' }.to_json
+        end
+    end
 
-  Article.create(params[:article])
+    post '/articles' do
+      Article.create(params[:article])
+    end
 
-end
+    delete '/articles/:id' do
+      Article.destroy(params[:id])
+    end
 
-delete '/articles/:id' do
-  Article.destroy(params[:id])
 end

@@ -7,6 +7,10 @@ development:
   password: docker
   host: db
 
+test:
+  adapter: sqlite3
+  database: db/test.sqlite3
+
 production:
   adapter: postgresql
   encoding: unicode

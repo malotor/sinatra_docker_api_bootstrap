@@ -13,8 +13,8 @@ services:
     build: .
     volumes:
       - .:/myapp
-    command: shotgun -I /myapp app.rb -p 80 -o '0.0.0.0'
+    #command: shotgun -p 40000 config.ru
     ports:
-      - "8080:80"
-    #depends_on:
-    #  - db
+      - "8080:40000"
+    depends_on:
+     - db
