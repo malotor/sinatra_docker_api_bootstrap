@@ -57,17 +57,12 @@ class MyApp < Sinatra::Base
         end
 
         def required_params
-            error 400, 'Invalid data' unless params[:title]
-            error 400, 'Invalid data' unless params[:content]
-
-            { title: params[:title], content: params[:content] }
-            #
-            # filtered_params = Hash.new
-            # [:title, :content].each do |filter|
-            #   error 400, 'Invalid data' unless params[filter]
-            #   filtered_params[filter] =  params[filter]
-            # end
-            # filtered_params
+            filtered_params = Hash.new
+            [:title, :content].each do |filter|
+              error 400, 'Invalid data' unless params[filter]
+              filtered_params[filter] =  params[filter]
+            end
+            filtered_params
         end
 
         def allowed_params
