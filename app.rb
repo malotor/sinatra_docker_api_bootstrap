@@ -30,7 +30,7 @@ class MyApp < Sinatra::Base
     end
 
     post '/articles' do
-        article = Article.new(title: params[:title], content: params[:content])
+        article = Article.new(required_params)
         puts article
         if article.save
           response.headers['Location'] = "#{base_url}/articles/#{article.id}"
@@ -43,7 +43,12 @@ class MyApp < Sinatra::Base
 
 
     delete '/articles/:id' do
-        Article.destroy(params[:id])
+        begin
+            Article.destroy(params[:id])
+            status 204
+        rescue
+            halt 404, { code: 404, error: 'Article doesn`t exists' }.to_json
+        end
     end
 
 
@@ -55,12 +60,12 @@ class MyApp < Sinatra::Base
 
         def required_params
             begin
-                {title: params[:tile], content: params[:content]}
-
+                { title: params[:title], content: params[:content] }
             rescue
                 halt 400, { message:'Invalid data' }.to_json
             end
         end
+
     end
 
 end

@@ -7,7 +7,7 @@ describe 'API' do
     Article.destroy_all
   end
 
-  it "Start page ok" do
+  it "check service status" do
     get "/"
     expect(last_response.status).to eq(200)
     expect(last_response.content_type).to eq("application/json")
@@ -16,7 +16,7 @@ describe 'API' do
   end
 
 
-  it "GET /articles" do
+  it "should recover all articles" do
     article = Article.create(title: 'Title 1', content: "Content 1")
 
     get "/articles"
@@ -31,7 +31,7 @@ describe 'API' do
 
   end
 
-  it "POST /article" do
+  it "should create an article" do
     post '/articles', { :title => 'Title 1', :content => "Content 1" }
     expect(last_response.status).to eq(201)
     expect(Article.count).to eq(1)
@@ -39,5 +39,14 @@ describe 'API' do
 
   end
 
+  it "should remove an article" do
+
+    article = Article.create(title: 'Title 1', content: "Content 1")
+
+    delete "/articles/#{article.id}"
+    expect(last_response.status).to eq(204)
+    expect(Article.count).to eq(0)
+
+  end
 
 end
