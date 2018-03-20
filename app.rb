@@ -25,7 +25,7 @@ class MyApp < Sinatra::Base
         begin
             json Article.find(params[:id])
         rescue
-            error 404,  'Article doesn`t exists'
+            halt_if_not_found
         end
     end
 
@@ -45,7 +45,7 @@ class MyApp < Sinatra::Base
             Article.destroy(params[:id])
             status 204
         rescue
-            error 404, 'Article doesn`t exists'
+            halt_if_not_found
         end
     end
 
@@ -62,11 +62,14 @@ class MyApp < Sinatra::Base
                 error 400, 'Invalid data' unless params[:content]
 
                 { title: params[:title], content: params[:content] }
-
             end
 
             def error(code, message)
                 halt code, { code: code, message: message }.to_json
+            end
+
+            def halt_if_not_found
+                error 404, 'Article doesn`t exists'
             end
         end
 
