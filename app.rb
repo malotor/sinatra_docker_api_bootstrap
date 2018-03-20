@@ -40,7 +40,6 @@ class MyApp < Sinatra::Base
     end
 
 
-
     delete '/articles/:id' do
         begin
             Article.destroy(params[:id])
@@ -59,11 +58,11 @@ class MyApp < Sinatra::Base
             end
 
             def required_params
-                begin
-                    { title: params[:title], content: params[:content] }
-                rescue
-                    error 400, 'Invalid data'
-                end
+                error 400, 'Invalid data' unless params[:title]
+                error 400, 'Invalid data' unless params[:content]
+
+                { title: params[:title], content: params[:content] }
+
             end
 
             def error(code, message)
