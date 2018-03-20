@@ -31,12 +31,10 @@ class MyApp < Sinatra::Base
 
     post '/articles' do
         article = Article.new(required_params)
-        if article.save
-          response.headers['Location'] = "#{base_url}/articles/#{article.id}"
-          status 201
-        else
-          status 422
-        end
+        status 422 unless article.save
+
+        response.headers['Location'] = "#{base_url}/articles/#{article.id}"
+        status 201
     end
 
 
