@@ -25,13 +25,12 @@ class MyApp < Sinatra::Base
         begin
             json Article.find(params[:id])
         rescue
-            halt 404, { code: 404, error: 'Article doesn`t exists' }.to_json
+            error 404,  'Article doesn`t exists'
         end
     end
 
     post '/articles' do
         article = Article.new(required_params)
-        puts article
         if article.save
           response.headers['Location'] = "#{base_url}/articles/#{article.id}"
           status 201
@@ -47,25 +46,29 @@ class MyApp < Sinatra::Base
             Article.destroy(params[:id])
             status 204
         rescue
-            halt 404, { code: 404, error: 'Article doesn`t exists' }.to_json
+            error 404, 'Article doesn`t exists'
         end
     end
 
+    private
 
+        helpers do
 
-    helpers do
-        def base_url
-            @base_url ||= "#{request.env['rack.url_scheme']}://{request.env['HTTP_HOST']}"
-        end
+            def base_url
+                @base_url ||= "#{request.env['rack.url_scheme']}://{request.env['HTTP_HOST']}"
+            end
 
-        def required_params
-            begin
-                { title: params[:title], content: params[:content] }
-            rescue
-                halt 400, { message:'Invalid data' }.to_json
+            def required_params
+                begin
+                    { title: params[:title], content: params[:content] }
+                rescue
+                    error 400, 'Invalid data'
+                end
+            end
+
+            def error(code, message)
+                halt code, { code: code, message: message }.to_json
             end
         end
-
-    end
 
 end
