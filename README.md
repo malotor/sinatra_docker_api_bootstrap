@@ -24,7 +24,7 @@ REST API app with
     sh run rspec
 
 
-## Curls tests
+## Curls request
 
     curl -i -X GET -H "Content-Type: application/json"  http://localhost:8080
     curl -i -X GET -H "Content-Type: application/json"  http://localhost:8080/articles

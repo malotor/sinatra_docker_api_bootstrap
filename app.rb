@@ -2,17 +2,32 @@
 require 'sinatra/json'
 require 'sinatra/activerecord'
 require 'sinatra/base'
+require 'sinatra/custom_logger'
+require 'logger'
 
 current_dir = Dir.pwd
 Dir["#{current_dir}/models/*.rb"].each { |file| require file }
 
 class MyApp < Sinatra::Base
 
+    #helpers Sinatra::CustomLogger
+
+    configure :productiom,:development do
+        enable :logging
+        logger = Logger.new(File.open("#{root}/log/#{environment}.log", 'a'))
+        #logger.level = Logger::DEBUG if development?
+        set :logger, logger
+        #set :logger, Logger.new(STDOUT)
+
+    end
+
     before do
         content_type 'application/json'
+        logger.info "Loading request"
     end
 
     get "/" do
+        logger.debug "Loading request"
         { status: 'UP' }.to_json
     end
 
