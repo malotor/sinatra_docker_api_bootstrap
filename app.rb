@@ -30,7 +30,8 @@ class MyApp < Sinatra::Base
     end
 
     post '/articles' do
-        article = Article.new(json_params)
+        article = Article.new(title: params[:title], content: params[:content])
+        puts article
         if article.save
           response.headers['Location'] = "#{base_url}/articles/#{article.id}"
           status 201
@@ -52,12 +53,10 @@ class MyApp < Sinatra::Base
             @base_url ||= "#{request.env['rack.url_scheme']}://{request.env['HTTP_HOST']}"
         end
 
-        def json_params
+        def required_params
             begin
-                puts "Params: #{params}"
-                p = params.permit(:title, :content)
-                puts "Converido #{p}"
-                p
+                {title: params[:tile], content: params[:content]}
+
             rescue
                 halt 400, { message:'Invalid data' }.to_json
             end

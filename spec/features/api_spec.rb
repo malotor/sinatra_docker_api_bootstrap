@@ -32,11 +32,8 @@ describe 'API' do
   end
 
   it "POST /article" do
-
-    expect(Article.count).to eq(0)
-
     post '/articles', { :title => 'Title 1', :content => "Content 1" }
-    expect(last_response.status).to eq(200)
+    expect(last_response.status).to eq(201)
     expect(Article.count).to eq(1)
     expect(Article.first.title).to eq("Title 1")
 
