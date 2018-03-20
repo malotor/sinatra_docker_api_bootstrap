@@ -18,6 +18,8 @@ class MyApp < Sinatra::Base
 
     get "/articles" do
         json Article.all
+
+        #Permission.find_by(required_articles)
     end
 
     get "/articles/:id" do
@@ -39,6 +41,11 @@ class MyApp < Sinatra::Base
         status 204
     end
 
+    put '/articles/:id' do
+        halt_if_not_found
+        halt 422 unless @article.update_attributes(allowed_params)
+    end
+
     private
 
         def get_article
@@ -54,6 +61,20 @@ class MyApp < Sinatra::Base
             error 400, 'Invalid data' unless params[:content]
 
             { title: params[:title], content: params[:content] }
+            #
+            # filtered_params = Hash.new
+            # [:title, :content].each do |filter|
+            #   error 400, 'Invalid data' unless params[filter]
+            #   filtered_params[filter] =  params[filter]
+            # end
+            # filtered_params
+        end
+
+        def allowed_params
+            params.symbolize_keys.each do |key, value|
+              params.delete(key) if [:title, :content].exclude? key
+            end
+            params.symbolize_keys
         end
 
         def error(code, message)

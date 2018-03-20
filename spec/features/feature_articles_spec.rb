@@ -68,4 +68,18 @@ describe 'API' do
 
   end
 
+
+  it "should update an article" do
+
+    article = Article.create(title: 'Title 1', content: "Content 1")
+
+    put "/articles/#{article.id}", { :title => 'Title 2' }
+    expect(last_response.status).to eq(200)
+
+    updated_article = Article.find(article.id)
+
+    expect(updated_article.title).to eq("Title 2")
+
+  end
+
 end
