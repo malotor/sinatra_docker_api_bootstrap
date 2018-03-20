@@ -68,6 +68,10 @@ describe 'API' do
 
   end
 
+  it "should fail recovering a non existent  article" do
+    get "/articles/1"
+    expect(last_response.status).to eq(404)
+  end
 
   it "should update an article" do
 

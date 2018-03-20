@@ -77,7 +77,11 @@ class MyApp < Sinatra::Base
         end
 
         def halt_if_not_found
-            error 404, 'Article doesn`t exists' unless get_article
+            begin
+                get_article
+            rescue
+                error 404, 'Article doesn`t exists'
+            end
         end
 
 
