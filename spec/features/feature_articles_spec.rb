@@ -54,4 +54,18 @@ describe 'API' do
 
   end
 
+
+  it "should recover a single article" do
+
+    article = Article.create(title: 'Title 1', content: "Content 1")
+
+    get "/articles/#{article.id}"
+    expect(last_response.status).to eq(200)
+    # parse JSON
+    info = JSON::parse(last_response.body)
+    expect(info['title']).to eq(article.title)
+    expect(info['content']).to eq(article.content)
+
+  end
+
 end
