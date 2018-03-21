@@ -8,10 +8,6 @@ require 'logger'
 current_dir = Dir.pwd
 Dir["#{current_dir}/models/*.rb"].each { |file| require file }
 
-class BaseRestApp
-
-end
-
 class MyApp < Sinatra::Base
 
     #helpers Sinatra::CustomLogger
@@ -24,13 +20,13 @@ class MyApp < Sinatra::Base
         #set :logger, Logger.new(STDOUT)
     end
 
-
     before do
         content_type 'application/json'
         logger.info "Loading request"
     end
 
     after '/post/:id' do |id|
+      puts last_response.headers
       response.headers['Location'] = "#{base_url}/articles/#{id}"
     end
 

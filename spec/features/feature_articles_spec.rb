@@ -37,6 +37,7 @@ describe 'API' do
     expect(Article.count).to eq(1)
     expect(Article.first.title).to eq("Title 1")
 
+    expect(last_response.headers).to have_key('Location')
   end
 
   it "should require title and content to create an article" do
