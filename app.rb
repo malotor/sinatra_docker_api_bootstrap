@@ -49,6 +49,7 @@ class MyApp < Sinatra::Base
         error(422, "Unprocesable entity") unless @article.save
         add_headers
         status 201
+        json @article 
     end
 
 
