@@ -25,11 +25,6 @@ class MyApp < Sinatra::Base
         logger.info "Loading request"
     end
 
-    after '/post/:id' do |id|
-      puts last_response.headers
-      response.headers['Location'] = "#{base_url}/articles/#{id}"
-    end
-
 
     get "/" do
         logger.debug "Loading request"
@@ -44,6 +39,7 @@ class MyApp < Sinatra::Base
 
     get "/articles/:id" do
         halt_if_not_found
+        add_headers
         json @article
     end
 
@@ -51,6 +47,7 @@ class MyApp < Sinatra::Base
         have_required_params?
         @article = Article.new(allowed_params)
         status 422 unless @article.save
+        add_headers
         status 201
     end
 
@@ -64,6 +61,8 @@ class MyApp < Sinatra::Base
     put '/articles/:id' do
         halt_if_not_found
         halt 422 unless @article.update_attributes(allowed_params)
+        add_headers
+        json @article
     end
 
     private
@@ -101,5 +100,7 @@ class MyApp < Sinatra::Base
             end
         end
 
-
+        def add_headers
+          headers['Location'] = "#{base_url}/articles/#{@article.id}"
+        end
 end

@@ -7,14 +7,6 @@ describe 'API' do
     Article.destroy_all
   end
 
-  it "check service status" do
-    get "/"
-    expect(last_response.status).to eq(200)
-    expect(last_response.content_type).to eq("application/json")
-    expect(last_response.body).to eq({ status: 'UP' }.to_json)
-
-  end
-
 
   it "should recover all articles" do
     article = Article.create(title: 'Title 1', content: "Content 1")
@@ -66,6 +58,7 @@ describe 'API' do
     info = JSON::parse(last_response.body)
     expect(info['title']).to eq(article.title)
     expect(info['content']).to eq(article.content)
+    expect(last_response.headers).to have_key('Location')
 
   end
 
@@ -85,6 +78,8 @@ describe 'API' do
 
     expect(updated_article.title).to eq("Title 2")
 
+    info = JSON::parse(last_response.body)
+    expect(info['title']).to eq(updated_article.title)
   end
 
 end
