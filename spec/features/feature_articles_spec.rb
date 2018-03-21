@@ -39,7 +39,7 @@ describe 'API' do
 
   end
 
-  it "should require title and conten to create an article" do
+  it "should require title and content to create an article" do
     post '/articles', { :title => 'Title 1' }
     expect(last_response.status).to eq(400)
   end

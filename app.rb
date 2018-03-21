@@ -21,10 +21,12 @@ class MyApp < Sinatra::Base
 
     end
 
+
     before do
         content_type 'application/json'
         logger.info "Loading request"
     end
+
 
     get "/" do
         logger.debug "Loading request"
@@ -43,7 +45,8 @@ class MyApp < Sinatra::Base
     end
 
     post '/articles' do
-        @article = Article.new(required_params)
+        have_required_params?
+        @article = Article.new(allowed_params)
         status 422 unless @article.save
         response.headers['Location'] = "#{base_url}/articles/#{@article.id}"
         status 201
@@ -71,13 +74,10 @@ class MyApp < Sinatra::Base
             @base_url ||= "#{request.env['rack.url_scheme']}://{request.env['HTTP_HOST']}"
         end
 
-        def required_params
-            filtered_params = Hash.new
+        def have_required_params?
             [:title, :content].each do |filter|
               error 400, 'Invalid data' unless params[filter]
-              filtered_params[filter] =  params[filter]
             end
-            filtered_params
         end
 
         def allowed_params
