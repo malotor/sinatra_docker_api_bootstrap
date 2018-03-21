@@ -81,14 +81,14 @@ class MyApp < Sinatra::Base
         end
 
         def have_required_params?
-            [:title, :content].each do |filter|
-              error 400, 'Invalid data' unless params[filter]
+            [:title, :content].each do |param|
+              error 400, "Missing param #{param}" unless params[param]
             end
         end
 
         def allowed_params
-            params.symbolize_keys.keys.each do |key|
-              params.delete(key) if [:title, :content].exclude? key
+            params.symbolize_keys.keys.each do |param|
+              params.delete(param) if [:title, :content].exclude? param
             end
             params.symbolize_keys
         end
