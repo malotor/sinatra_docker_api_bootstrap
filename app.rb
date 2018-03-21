@@ -8,23 +8,30 @@ require 'logger'
 current_dir = Dir.pwd
 Dir["#{current_dir}/models/*.rb"].each { |file| require file }
 
+class BaseRestApp
+
+end
+
 class MyApp < Sinatra::Base
 
     #helpers Sinatra::CustomLogger
 
     configure :productiom,:development do
         enable :logging
-        logger = Logger.new(File.open("#{root}/log/#{environment}.log", 'a'))
+        #logger = Logger.new(File.open("#{root}/log/#{environment}.log", 'a'))
         #logger.level = Logger::DEBUG if development?
-        set :logger, logger
+        #set :logger, logger
         #set :logger, Logger.new(STDOUT)
-
     end
 
 
     before do
         content_type 'application/json'
         logger.info "Loading request"
+    end
+
+    after '/post/:id' do |id|
+      response.headers['Location'] = "#{base_url}/articles/#{id}"
     end
 
 
@@ -48,7 +55,6 @@ class MyApp < Sinatra::Base
         have_required_params?
         @article = Article.new(allowed_params)
         status 422 unless @article.save
-        response.headers['Location'] = "#{base_url}/articles/#{@article.id}"
         status 201
     end
 
@@ -81,7 +87,7 @@ class MyApp < Sinatra::Base
         end
 
         def allowed_params
-            params.symbolize_keys.each do |key, value|
+            params.symbolize_keys.keys.each do |key|
               params.delete(key) if [:title, :content].exclude? key
             end
             params.symbolize_keys
