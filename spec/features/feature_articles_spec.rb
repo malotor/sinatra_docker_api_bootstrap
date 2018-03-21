@@ -37,6 +37,12 @@ describe 'API' do
     expect(last_response.status).to eq(400)
   end
 
+  it "should valid parameters to create an article" do
+    post '/articles', { :title => "a" * 200 , :content => "Content 1"}
+    expect(last_response.status).to eq(422)
+  end
+
+
   it "should remove an article" do
 
     article = Article.create(title: 'Title 1', content: "Content 1")

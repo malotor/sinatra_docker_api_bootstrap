@@ -46,7 +46,7 @@ class MyApp < Sinatra::Base
     post '/articles' do
         have_required_params?
         @article = Article.new(allowed_params)
-        status 422 unless @article.save
+        error(422, "Unprocesable entity") unless @article.save
         add_headers
         status 201
     end
@@ -60,7 +60,7 @@ class MyApp < Sinatra::Base
 
     put '/articles/:id' do
         halt_if_not_found
-        halt 422 unless @article.update_attributes(allowed_params)
+        error(422, "Unprocesable entity") unless @article.update_attributes(allowed_params)
         add_headers
         json @article
     end
