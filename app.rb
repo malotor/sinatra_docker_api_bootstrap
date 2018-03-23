@@ -1,9 +1,5 @@
 # myapp.rb
-require 'sinatra/json'
-require 'sinatra/activerecord'
-require 'sinatra/base'
-require 'sinatra/custom_logger'
-require 'logger'
+require_relative './config/environment'
 
 current_dir = Dir.pwd
 Dir["#{current_dir}/models/*.rb"].each { |file| require file }

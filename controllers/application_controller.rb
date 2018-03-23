@@ -13,17 +13,10 @@ class ApplicationController < Sinatra::Base
 
   #not_found{ slim :not_found }
 
-  configure :productiom,:development do
-      enable :logging
-      #logger = Logger.new(File.open("#{root}/log/#{environment}.log", 'a'))
-      #logger.level = Logger::DEBUG if development?
-      #set :logger, logger
-      #set :logger, Logger.new(STDOUT)
-  end
 
   before do
       content_type 'application/json'
-      logger.info "Loading request"
+      logger.debug "Loading request"
   end
 end
 

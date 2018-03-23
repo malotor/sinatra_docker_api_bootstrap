@@ -1,14 +1,13 @@
 class ArticlesController < ApplicationController
-    #helpers Sinatra::CustomLogger
+
     get "/" do
-        logger.debug "Loading request"
+        logger.info "Loading request"
         { status: 'UP' }.to_json
     end
 
     get "/articles" do
+        logger.debug "Getting articles"
         json Article.all
-
-        #Permission.find_by(required_articles)
     end
 
     get "/articles/:id" do
