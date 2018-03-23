@@ -5,7 +5,7 @@ require 'capybara/rspec'
 
 #Capybara.default_driver = :selenium
 
-Capybara.app = MyApp
+Capybara.app = MyApp.new
 
 RSpec.configure do |config|
   config.include Capybara::DSL
