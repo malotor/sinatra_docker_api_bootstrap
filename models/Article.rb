@@ -1,17 +1,16 @@
 class Article < ActiveRecord::Base
 
-    attr_reader :published,:published_on,:title,:content
+    #attr_reader :published,:published_on,:title,:content
 
     validates :title, presence: true, length: { maximum: 100 }
     validates :content, presence: true
 
     def initialize(attributes = nil)
-      super(attributes)
-      @content = content
-      @published  = false
-      @likes = 0
-
+       super(attributes)
+       @published  = false
+       @likes = 0
     end
+    
 
     def have_been_published?
       @published
