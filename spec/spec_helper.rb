@@ -11,7 +11,7 @@ require_relative '../app'
 module RSpecMixin
   include Rack::Test::Methods
   #def app() Sinatra::Application end
-  def app() MyApp end
+  def app() MyApp.new end
 end
 
 # For RSpec 2.x and 3.x
